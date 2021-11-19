@@ -1,0 +1,408 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrator </title>
+  <!-- Bootstrap Styles-->
+  <link href="{% static 'second/assets/css/bootstrap.css' %}" rel="stylesheet" />
+  <!-- FontAwesome Styles-->
+  <link href="{% static 'second/assets/css/font-awesome.css' %}" rel="stylesheet" />
+  <!-- Morris Chart Styles-->
+  <link href="{% static 'second/assets/js/morris/morris-0.4.3.min.css' %}" rel="stylesheet" />
+  <!-- Custom Styles-->
+  <link href="{% static 'second/assets/css/custom-styles.css' %}" rel="stylesheet" />
+  <!-- Google Fonts-->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  <style>
+    body {
+      margin-top: 20px;
+      background: #FAFAFA;
+    }
+
+    .order-card {
+      color: #fff;
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+
+
+
+    .card {
+      border-radius: 5px;
+      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      border: none;
+      margin-bottom: 30px;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+      padding: 70px;
+    }
+
+    .order-card i {
+      font-size: 26px;
+    }
+
+  
+  
+    box-sizing:border-box
+   
+
+    body {
+      font-family: Arial;
+      margin: 0 auto;
+      /* Center website */
+      max-width: 800px;
+      /* Max width */
+      padding: 20px;
+    }
+
+    .heading {
+      font-size: 25px;
+      margin-right: 25px;
+    }
+
+    .fa {
+      font-size: 25px;
+    }
+
+    .checked {
+      color: orange;
+    }
+
+    /* Three column layout */
+    .side {
+      float: left;
+      width: 15%;
+      margin-top: 10px;
+    }
+
+    .middle {
+      margin-top: 10px;
+      float: left;
+      width: 70%;
+    }
+
+    /* Place text to the right */
+    .right {
+      text-align: right;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* The bar container */
+    .bar-container {
+      width: 100%;
+      background-color: #f1f1f1;
+      text-align: center;
+      color: white;
+    }
+
+    /* Individual bars */
+    .bar-5 {
+      width: 60%;
+      height: 18px;
+      background-color: #04AA6D;
+    }
+
+    .bar-4 {
+      width: 30%;
+      height: 18px;
+      background-color: #2196F3;
+    }
+
+    .bar-3 {
+      width: 10%;
+      height: 18px;
+      background-color: #00bcd4;
+    }
+
+    .bar-2 {
+      width: 4%;
+      height: 18px;
+      background-color: #ff9800;
+    }
+
+    .bar-1 {
+      width: 15%;
+      height: 18px;
+      background-color: #f44336;
+    }
+
+    /* Responsive layout - make the columns stack on top of each other instead of next to each other */
+    @media (max-width: 400px) {
+
+      .side,
+      .middle {
+        width: 100%;
+      }
+
+      .right {
+        display: none;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href=> </a>
+      </div>
+
+      <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a href=""><i class="fa fa-user fa-fw"></i> User Profile</a>
+            </li>
+            <li><a href=""><i class="fa fa-gear fa-fw"></i> Settings</a>
+            </li>
+            <li class="divider"></li>
+            <li><a href=""><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+          </ul>
+          <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+      </ul>
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+      <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+          <li>
+            <a href=""><i class="fa fa-user fa-fw"></i>Hello, {{ request.user }}</a>
+          </li>
+          <li>
+            <a class="active-menu" href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a>
+          </li>
+          <li>
+            <a href=""><i class="fa fa-desktop"></i> News Letters</a>
+          </li>
+         
+          <li>
+            <a href="{% url 'roombooking' %}"><i class="fa fa-qrcode"></i> Room Booking</a>
+          </li>
+          <li>
+            <a href="{% url 'reservation' %}"><i class="fa fa-qrcode"></i> Reservation</a>
+          </li>
+          <li>
+            <a href="{% url 'loss' %}"><i class="fa fa-qrcode"></i> Rooms</a>
+          </li>
+         
+          <li>
+            <a href=""><i class="fa fa-qrcode"></i> Payment</a>
+        </li>
+        <li>
+          <a href="{% url 'new' %}"><i class="fa fa-qrcode"></i> Book Room</a>
+        </li>
+        <li>
+          <a href="{% url 'customer' %}"><i class="fa fa-qrcode"></i> Booking List</a>
+        </li>
+        <li>
+          <a href="{% url 'contact' %}"><i class="fa fa-qrcode"></i> Contact US</a>
+        </li>
+    <li>
+        <a href="{% url 'customerrrs_profile' %}"><i class="fa fa-qrcode"></i> User Profile</a>
+      </li>
+    <li>
+            
+            <a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+          </li>
+
+
+
+
+        </ul>
+
+      </div>
+      
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+      <div id="page-inner">
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="page-header">
+              Dashboard<small> </small>
+            </h1>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-blue order-card">
+                  <div class="card-block">
+
+                    <h1 class="text-center"><span>ROOMS</span></h1>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-green order-card">
+                  <div class="card-block">
+                    <h1 class="text-center"><span>BOOKINGS</span></h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <span class="heading">User Rating
+          </div>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <p>4.1 average based on 254 reviews.</p>
+          <hr style="border:3px solid #f1f1f1">
+
+          <div class="col-md-11">
+            <div class="row">
+              <div class="side">
+                <div>5 star</div>
+              </div>
+              <div class="middle">
+                <div class="bar-container">
+                  <div class="bar-5"></div>
+                </div>
+              </div>
+              <div class="side right">
+                <div>150</div>
+              </div>
+              <div class="side">
+                <div>4 star</div>
+              </div>
+              <div class="middle">
+                <div class="bar-container">
+                  <div class="bar-4"></div>
+                </div>
+              </div>
+              <div class="side right">
+                <div>63</div>
+              </div>
+              <div class="side">
+                <div>3 star</div>
+              </div>
+              <div class="middle">
+                <div class="bar-container">
+                  <div class="bar-3"></div>
+                </div>
+              </div>
+              <div class="side right">
+                <div>15</div>
+              </div>
+              <div class="side">
+                <div>2 star</div>
+              </div>
+              <div class="middle">
+                <div class="bar-container">
+                  <div class="bar-2"></div>
+                </div>
+              </div>
+              <div class="side right">
+                <div>6</div>
+              </div>
+              <div class="side">
+                <div>1 star</div>
+              </div>
+              <div class="middle">
+                <div class="bar-container">
+                  <div class="bar-1"></div>
+                </div>
+              </div>
+              <div class="side right">
+                <div>20</div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+ <!-- /. NAV SIDE  -->
+       
+        
+       
+ 
+
+
+  
+
+
+</div>
+<!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="assets/js/custom-scripts.js"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
