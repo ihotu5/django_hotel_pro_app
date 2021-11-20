@@ -117,7 +117,7 @@
                             BOOK ROOM
                         </div>
                         <div class="panel-body">
-                            <form action="" method="post">
+                            <form action="" method="post" id="bookForm">
                             {% csrf_token %}
                             {{form.as_p}}
                             <br>
@@ -125,7 +125,7 @@
                             <br>
                             <br>
                             {{form.media}}
-							 <input type="submit" name="add" value="Book Now" class="btn btn-primary"> 
+							 <input type="button" name="add" value="Book Now" onclick="payWithPaystack()" class="btn btn-primary"> 
 							</form>
 									
                         </div>
@@ -161,50 +161,28 @@
     <!-- Custom Js -->
     <script src="{% static 'second/assets/js/custom-scripts.js' %}"></script>
     
-    
+    <script src="https://js.paystack.co/v1/inline.js"></script> 
+    <script>
+        const prices = JSON.parse("{{ prices|safe }}".replace(/'/g, '"'));
+        function payWithPaystack(e) {
+            const selectedRoom = document.getElementById("id_room_number").value
+            let price = prices[selectedRoom]
+            let handler = PaystackPop.setup({
+                key: '',
+                email: "{{ request.user.email }}",
+                amount: price.toString()+"00",
+                ref: 'refno_'+Math.floor((Math.random() * 1000000000) + 1),
+                onClose: function(){
+                    alert('Window closed.');
+                },
+                callback: function(response){
+                    document.getElementById("bookForm").submit();   
+                }
+            });
+            handler.openIframe();
+        }
+    </script>
 
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <h1>plan a new meeting </h1>
-    <form method="POST">
-       
-            {{ form.as_p }}
-        
-        {% csrf_token %}
-        <button type="submit">Submt</button>
-    
-</form> -->
