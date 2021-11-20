@@ -10,6 +10,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
+import json
 # Create your views here.
 
 @login_required(login_url='login')
@@ -94,7 +95,6 @@ class new(FormView):
     form_class = AvailabilityForm
     template_name = 'second_app/availiability.html'
     
-    
     def form_valid(self,form):
         data = form.cleaned_data
         rent = Room.objects.filter(room_number=data['room_number'])
@@ -116,6 +116,13 @@ class new(FormView):
             return redirect ('book')
         else:
             return redirect("choose_room")   
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        prices = { room.room_number: room.price for room in Room.objects.all() }
+        context['prices'] = prices
+        return context
+
 
 
 
@@ -189,7 +196,7 @@ def customerrrs_profile(request):
 
 
 @login_required(login_url='login')
-@verified_user
+# @verified_user
 def profile(request):
     customerrs = request.user.customerrs
     form = CustomerForm(instance=customerrs) 
